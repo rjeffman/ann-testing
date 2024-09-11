@@ -26,6 +26,14 @@ def random_classification_test(classifier, dataset, count):
 
 def create_network():
     """Initialize ANN model."""
+    # Loss function
+    # Mean squared error
+    loss_function = torch.nn.MSELoss()
+    # Mean absolute error
+    # loss_function = torch.nn.L1Loss()
+    # Kullback-Leibler Divergence
+    # loss_function = torch.nn.KLDivLoss(reduction = 'sum')
+
     # Network architecture
     input_size = 784
     hidden_layer_size = [150]
@@ -56,9 +64,14 @@ def create_network():
         ),
     ]
 
+    optimizer = torch.optim.SGD
+    # optimizer = torch.optim.Adam
+
     return MultiLayerPerceptron(
         layers,
         learning_rate=0.01,
+        loss_function=loss_function,
+        optimizer=optimizer,
     )
 
 
@@ -73,7 +86,7 @@ def __mlp_main():
         "data/t10k-labels-idx1-ubyte"
     )
 
-    epochs = 1
+    epochs = 3
     progress = []
 
     # Create plot
