@@ -12,7 +12,7 @@ class MultiLayerPerceptron(torch.nn.Module):
         layer_configuration,
         learning_rate,
         loss_function=torch.nn.MSELoss(),
-        optimiser=torch.optim.SGD,
+        optimizer=torch.optim.SGD,
     ):
         """Initialize model."""
         super().__init__()
@@ -23,7 +23,7 @@ class MultiLayerPerceptron(torch.nn.Module):
         self.loss_function = loss_function
 
         # Optimize using Simple Gradient Descent (SGD) (Usar Adam?)
-        self.optimiser = optimiser(self.parameters(), lr=learning_rate)
+        self.optimizer = optimizer(self.parameters(), lr=learning_rate)
 
     def forward(self, inputs):
         """Activate network for one input pattern."""
@@ -43,7 +43,7 @@ class MultiLayerPerceptron(torch.nn.Module):
     def train_epoch(self, dataset):
         """Train model which all members of the dataset."""
         progress = []
-        self.optimiser.zero_grad()  # zero gradients
+        self.optimizer.zero_grad()  # zero gradients
         for _, inputs, targets in dataset:
             train_result = self.__single_example(inputs, targets)
             self.update_weights()
@@ -52,8 +52,8 @@ class MultiLayerPerceptron(torch.nn.Module):
 
     def update_weights(self):
         """Update model weights."""
-        self.optimiser.step()  # update weights
-        self.optimiser.zero_grad()  # zero gradients
+        self.optimizer.step()  # update weights
+        self.optimizer.zero_grad()  # zero gradients
 
     def evaluate_dataset(self, dataset):
         """Return the number of examples correctly classified."""
